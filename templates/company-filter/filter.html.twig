@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+    <div class="row g-2">
+        <div class="col-auto">
+            <div class="form-label">{{ form_label(form.symbol) }} <i class="text-danger">*</i></div>
+            {{ form_widget(form.symbol, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-auto">
+            <div class="form-label">{{ form_label(form.email) }} <i class="text-danger">*</i></div>
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="row g-3 mt-1">
+        <div class="col-auto">
+            <div class="form-label">{{ form_label(form.startDate) }} <i class="text-danger">*</i></div>
+            {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-auto">
+            <div class="form-label">{{ form_label(form.endDate) }} <i class="text-danger">*</i></div>
+            {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary form-control mt-4" type="submit">Submit</button>
+        </div>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,37 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    #csrf_protection: true
+    http_method_override: false
+
+    # Http client for external APIs
+    http_client:
+        scoped_clients:
+            package_datastore.client:
+                base_uri: '%env(DATA_HUB_API_URL)%'
+            rapid_api.client:
+                base_uri: '%env(RAPID_API_URL)%'
+                headers:
+                    X-RapidAPI-Key: '%env(RAPID_API_KEY)%'
+                    X-RapidAPI-Host: '%env(RAPID_API_URL)%'
+
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
+    session:
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
+
+    #esi: true
+    #fragments: true
+    php_errors:
+        log: true
+
+    error_controller: App\Controller\ErrorController::show
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

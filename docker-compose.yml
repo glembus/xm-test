@@ -1,0 +1,39 @@
+services:
+  test_app:
+    container_name: test_app
+    build: "./docker"
+    restart: unless-stopped
+    volumes:
+      - '.:/var/www/html'
+#    ports:
+#      - '9000:9000'
+    environment:
+#      - SYMFONY_PROJECT_NAME=myapp
+      - INSTALL_XDEBUG=true
+      - XDEBUG_PORT=9003
+    depends_on:
+      - redis
+      - nginx
+    networks:
+      test_net:
+  redis:
+    container_name: redis
+    image: redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    networks:
+      test_net:
+  nginx:
+    build: "./docker/nginx"
+    restart: unless-stopped
+    volumes:
+      - ./docker/nginx/nginx-sites:/etc/nginx/sites-available
+      - ./:/var/www/html
+    ports:
+      - '80:80'
+    networks:
+      test_net:
+networks:
+  test_net:
+    name: 'test_net'

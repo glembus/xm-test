@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "watch": "webpack --watch --progress",
+    "build": "webpack --progress"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@symfony/stimulus-bridge": "^3.2.1",
+    "@symfony/webpack-encore": "^3.1.0",
+    "bootstrap": "^5.2.1",
+    "jquery": "^3.6.1",
+    "sass": "^1.54.9",
+    "sass-loader": "^13.0.2",
+    "webpack-notifier": "^1.15.0"
+  }
+}
