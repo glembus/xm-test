@@ -9,7 +9,7 @@ endif
 
 CONSOLE := $(DOCKER) php bin/console
 COMPOSER = $(DOCKER) composer
-NPM = $(DOCKER) npm
+NPM = $(DOCKER) bash
 
 continue:
 	@while [ -z "$$CONTINUE" ]; do \
@@ -48,8 +48,8 @@ install: configured prune continue
 	@docker-compose ps
 	@sleep 2
 	$(COMPOSER) install -n
-	$(NPM) install
-	$(NPM) run build
+	$(NPM) npm install
+	$(NPM) npm run build
 
 prune: warning prune_warning continue
 	@docker-compose down --remove-orphans
