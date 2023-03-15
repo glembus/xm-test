@@ -13,10 +13,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class CompanyFilterType extends AbstractType
 {
-    public function __construct(private readonly RouterInterface $router)
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
