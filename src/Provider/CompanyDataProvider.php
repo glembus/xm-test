@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Provider;
 
 use App\Client\DataHubApi\ApiClient;
@@ -14,9 +16,6 @@ class CompanyDataProvider
     {
     }
 
-    /**
-     * @return array<CompanyInterface>
-     */
     public function getCompaniesSymbols(): array
     {
         $item = $this->cache->getItem(self::CACHE_COMPANY_KEY_PREFIX.'list');
@@ -33,7 +32,7 @@ class CompanyDataProvider
         $item = $this->cache->getItem(self::CACHE_COMPANY_KEY_PREFIX.'list');
 
         if (!$item->isHit()) {
-            $companiesData = $this->getCompaniesSymbols();
+            $companiesData = $this->cacheCompanies($item);
         } else {
             $companiesData = $item->get();
         }
@@ -49,7 +48,6 @@ class CompanyDataProvider
         $item->set($companiesSymbols);
         $item->expiresAt(new \DateTime('+1 hours'));
         $this->cache->save($item);
-        $this->cache->commit();
 
         return $companiesSymbols;
     }

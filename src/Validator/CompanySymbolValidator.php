@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
 use App\Filter\CompanySymbolFilter;
@@ -14,7 +16,7 @@ class CompanySymbolValidator extends ConstraintValidator
     {
     }
 
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (null === $value || '' === $value) {
             return;

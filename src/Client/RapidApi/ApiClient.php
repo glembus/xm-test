@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Client\RapidApi;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class ApiClient
+class ApiClient
 {
     public function __construct(
         private readonly HttpClientInterface $client,
