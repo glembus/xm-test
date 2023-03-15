@@ -28,7 +28,7 @@ services:
     build: "./docker/nginx"
     restart: unless-stopped
     volumes:
-      - ./docker/nginx/nginx-sites:/etc/nginx/sites-available
+      - ./docker/nginx/nginx-sites:/etc/nginx/conf.d
       - ./:/var/www/html
     ports:
       - '80:80'

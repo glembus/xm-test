@@ -8,26 +8,32 @@ class HistoryChart {
         $(document).on('dashboard:company:refresh', function (e, data){
             let companyName = 'Company Name';
             $(_self.static.container).removeClass('d-none');
-            $(_self.static.container).CanvasJSChart({
-                title: {
-                    text: data.company[companyName]
-                },
-                axisY: {
-                    includeZero: false,
-                    title: "Price",
-                },
-                axisX: {
-                    intervalType: "day",
-                    interval: 1,
-                    valueFormatString: "MMM"
-                },
-                data: [
-                    {
-                        type: "candlestick",
-                        dataPoints: _self.convertToChartFormat(data.financeHistory),
-                    }
-                ]
-            })
+            if (data.financeHistory) {
+                $(_self.static.container).CanvasJSChart({
+                    title: {
+                        text: data.company[companyName]
+                    },
+                    zoomEnabled:true,
+                    animationEnabled: true,
+                    axisY: {
+                        includeZero: false,
+                        title: "Price",
+                    },
+                    width: 500,
+                    height: 280,
+                    axisX: {
+                        intervalType: "day",
+                        interval: 1,
+                        valueFormatString: "MMM"
+                    },
+                    data: [
+                        {
+                            type: "candlestick",
+                            dataPoints: _self.convertToChartFormat(data.financeHistory),
+                        }
+                    ]
+                });
+            }
         });
 
         $(document).on('dashboard:company:hide', function () {

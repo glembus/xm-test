@@ -42,10 +42,14 @@ prune_warning:
 	@echo "Remove all containers for $(COMPOSE_PROJECT_NAME) project, purge all volumes and network ?"
 	@echo ""
 
-install: configured prune continue install_dependencies
+install: configured prune continue
 	docker-compose up -d --build
 	@sleep 2
 	@docker-compose ps
+	@sleep 2
+	$(COMPOSER) install -n
+	$(NPM) install
+	$(NPM) run build
 
 prune: warning prune_warning continue
 	@docker-compose down --remove-orphans
