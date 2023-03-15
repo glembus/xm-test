@@ -13,7 +13,7 @@ framework:
                 base_uri: '%env(RAPID_API_URL)%'
                 headers:
                     X-RapidAPI-Key: '%env(RAPID_API_KEY)%'
-                    X-RapidAPI-Host: '%env(RAPID_API_URL)%'
+                    X-RapidAPI-Host: '%env(RAPID_API_HOST)%'
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.

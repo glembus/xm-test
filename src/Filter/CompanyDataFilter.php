@@ -7,26 +7,24 @@ use App\Provider\FinanceHistoryFilterInterface;
 use App\Validator\CompanySymbol;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[Assert\Expression("this.getStartDate() < this.getEndDate()", message: 'Start period date should be early then end period date!')]
-class CompanyDataFilterRapid implements FinanceHistoryFilterInterface, CompanyDataFilterInterface
+#[Assert\Expression('this.getStartDate() < this.getEndDate()', message: 'Start period date should be early then end period date!')]
+class CompanyDataFilter implements FinanceHistoryFilterInterface, CompanyDataFilterInterface
 {
     #[Assert\NotBlank]
     #[CompanySymbol]
     private string $symbol;
 
     #[Assert\NotBlank]
-    #[Assert\Date]
     private \DateTimeInterface $startDate;
 
     #[Assert\NotBlank]
-    #[Assert\Date]
     private \DateTimeInterface $endDate;
 
     #[Assert\NotBlank]
     #[Assert\Email]
     private string $email;
 
-    private ?string $region;
+    private ?string $region = null;
 
     public function getSymbol(): string
     {

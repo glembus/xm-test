@@ -11,7 +11,6 @@ final class ApiClient
         private readonly HttpClientInterface $client,
         private readonly LoggerInterface $logger,
     ) {
-
     }
 
     public function getCompaniesData(): array
@@ -22,7 +21,7 @@ final class ApiClient
                 '/core/nasdaq-listings/nasdaq-listed_json/data/a5bc7580d6176d60ac0b2142ca8d7df6/nasdaq-listed_json.json'
             );
 
-            if ($response->getStatusCode() >= 400 || $response->getHeaders()['content-type'][0] !== 'application/json') {
+            if ($response->getStatusCode() >= 400) {
                 throw new \Exception($response->getContent(false));
             }
 

@@ -3,17 +3,15 @@
 namespace App\Provider;
 
 use App\Client\DataHubApi\ApiClient;
-use Symfony\Component\Cache\CacheItem;
-use Symfony\Contracts\Cache\CacheInterface;
+use Psr\Cache\CacheItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class CompanyDataProvider
 {
     private const CACHE_COMPANY_KEY_PREFIX = 'company-';
-    private const CACHE_COMPANIES_SYMBOLS_KEY = 'companies-symbols';
 
-    public function __construct(private readonly ApiClient $client, private readonly CacheInterface $cache)
+    public function __construct(private readonly ApiClient $client, private readonly TagAwareCacheInterface $cache)
     {
-
     }
 
     /**
@@ -21,13 +19,10 @@ class CompanyDataProvider
      */
     public function getCompaniesSymbols(): array
     {
-        $item = $this->cache->getItem(self::CACHE_COMPANIES_SYMBOLS_KEY);
+        $item = $this->cache->getItem(self::CACHE_COMPANY_KEY_PREFIX.'list');
 
         if (!$item->isHit()) {
-            $companiesSymbols = $this->cacheCompanies();
-            $item->set($companiesSymbols);
-
-            return $companiesSymbols;
+            return $this->cacheCompanies($item);
         }
 
         return $item->get();
@@ -35,27 +30,26 @@ class CompanyDataProvider
 
     public function getCompany(CompanyDataFilterInterface $filter): array
     {
-        $item = $this->cache->getItem(self::CACHE_COMPANY_KEY_PREFIX.$filter->getSymbol());
+        $item = $this->cache->getItem(self::CACHE_COMPANY_KEY_PREFIX.'list');
 
-        return $item->isHit() ? $item->get() : [];
+        if (!$item->isHit()) {
+            $companiesData = $this->getCompaniesSymbols();
+        } else {
+            $companiesData = $item->get();
+        }
+
+        return $companiesData[$filter->getSymbol()] ?? [];
     }
 
-    private function cacheCompanies(): array
+    private function cacheCompanies(CacheItemInterface $item): array
     {
-        $item = new CacheItem();
         $companiesRawData = $this->client->getCompaniesData();
         $companiesSymbols = array_column($companiesRawData, 'Symbol');
-        $tags = array_merge(
-            [self::CACHE_COMPANY_KEY_PREFIX.'list'],
-            array_map(function($key) {
-                return self::CACHE_COMPANY_KEY_PREFIX.$key;
-            }, $companiesSymbols)
-        );
         $companiesSymbols = array_combine(array_values($companiesSymbols), $companiesRawData);
-        $item->tag($tags);
-        $item->set(array_combine(array_values($companiesSymbols), $companiesRawData));
-        $item->expiresAt(new \DateTime('+12 hours'));
+        $item->set($companiesSymbols);
+        $item->expiresAt(new \DateTime('+1 hours'));
         $this->cache->save($item);
+        $this->cache->commit();
 
         return $companiesSymbols;
     }

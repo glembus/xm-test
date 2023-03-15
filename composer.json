@@ -13,10 +13,12 @@
         "symfony/asset": "^6.1",
         "symfony/console": "^6.1",
         "symfony/dotenv": "^6.1",
+        "symfony/expression-language": "^6.1",
         "symfony/flex": "^1.17|^2",
         "symfony/form": "^6.1",
         "symfony/framework-bundle": "^6.1",
         "symfony/http-client": "^6.1",
+        "symfony/mailer": "^6.1",
         "symfony/proxy-manager-bridge": "^6.1",
         "symfony/runtime": "^6.1",
         "symfony/security-bundle": "^6.1",
@@ -28,6 +30,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.15",
         "symfony/debug-bundle": "^6.1",
         "symfony/maker-bundle": "^1.47",
         "symfony/monolog-bundle": "^3.0",
@@ -71,6 +74,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "cs-fix": [
+            "./vendor/bin/php-cs-fixer fix"
         ]
     },
     "conflict": {

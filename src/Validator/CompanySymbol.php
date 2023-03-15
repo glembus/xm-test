@@ -12,6 +12,6 @@ class CompanySymbol extends Constraint
 
     public function getTargets(): array|string
     {
-        return self::CLASS_CONSTRAINT;
+        return self::PROPERTY_CONSTRAINT;
     }
 }

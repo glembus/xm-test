@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Filter\CompanyDataFilterRapid;
+use App\Filter\CompanyDataFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -15,7 +15,6 @@ class CompanyFilterType extends AbstractType
 {
     public function __construct(private readonly RouterInterface $router)
     {
-
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -43,7 +42,7 @@ class CompanyFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => CompanyDataFilterRapid::class]);
+        $resolver->setDefaults(['data_class' => CompanyDataFilter::class]);
     }
 
     public function getBlockPrefix(): string
